@@ -1,0 +1,11 @@
+buffle 1000000
+phacochère 667500
+gazelle 237500
+zèbre 80400
+antilope 2000000
+leopard 700000
+lion 20000
+gnou 1300000
+guepard 10000
+hyene 37000
+impala 2000000
