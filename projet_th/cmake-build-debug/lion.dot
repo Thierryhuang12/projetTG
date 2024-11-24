@@ -1,0 +1,16 @@
+digraph mongraphe {
+lion -> phacochere [label="10"];
+lion -> buffle [label="35"];
+lion -> zebre [label="25"];
+lion -> gnou [label="15"];
+lion -> gazelle [label="15"];
+phacochere -> feuille [label="90"];
+buffle -> herbe [label="70"];
+buffle -> feuille [label="20"];
+zebre -> herbe [label="80"];
+zebre -> feuille [label="15"];
+gnou -> herbe [label="80"];
+gnou -> feuille [label="10"];
+gazelle -> herbe [label="80"];
+gazelle -> feuille [label="15"];
+}

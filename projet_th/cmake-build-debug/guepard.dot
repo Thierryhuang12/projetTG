@@ -1,0 +1,11 @@
+digraph mongraphe {
+    guepard -> gazelle [label="55"];
+    guepard -> impala [label="25"];
+    guepard -> antilope [label="15"];
+    gazelle -> herbe [label="80"];
+    gazelle -> feuille [label="15"];
+    impala -> herbe [label="85"];
+    impala -> feuille [label="10"];
+    antilope -> herbe [label="70"];
+    antilope -> feuille [label="20"];
+}
