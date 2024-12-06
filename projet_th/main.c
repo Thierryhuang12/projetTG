@@ -47,7 +47,7 @@ void afficherPredSucc(int sommet) {
     printf("\n");
 
     // Prédécesseurs
-    printf("Prédécesseurs : ");
+    printf("Predecesseurs : ");
     int hasPredecesseurs = 0;
     for (int i = 0; i < nombreDeSommets; i++) {
         if (graphe[i][sommet] > 0) {
@@ -92,11 +92,11 @@ void dijkstra(int source, int destination) {
     }
 
     if (distance[destination] == INFINI) {
-        printf("Aucun chemin trouvé de %s à %s.\n", sommets[source].nom, sommets[destination].nom);
+        printf("Aucun chemin trouve de %s à %s.\n", sommets[source].nom, sommets[destination].nom);
         return;
     }
 
-    printf("Chemin le plus court de %s à %s avec une distance de %d :\n", sommets[source].nom, sommets[destination].nom, distance[destination]);
+    printf("Chemin le plus court de %s a %s avec une distance de %d :\n", sommets[source].nom, sommets[destination].nom, distance[destination]);
 
     int chemin[MAX_SOMMETS], compte = 0;
     for (int v = destination; v != -1; v = precedent[v]) {
@@ -133,7 +133,7 @@ void calculerDegre(int sommet) {
         if (graphe[sommet][i] > 0) degreExterieur++;
     }
 
-    printf("Sommet %s : Degré intérieur = %d, Degré extérieur = %d\n",
+    printf("Sommet %s : Degre interieur = %d, Degre exterieur = %d\n",
            sommets[sommet].nom, degreInterieur, degreExterieur);
 }
 
@@ -185,7 +185,7 @@ void calculerCentraliteIntermediaire() {
         }
     }
 
-    printf("\nCentralité d'intermédiarité :\n");
+    printf("\nCentralite d'intermediarite :\n");
     for (int i = 0; i < nombreDeSommets; i++) {
         printf("Sommet %s : %d\n", sommets[i].nom, centralite[i]);
     }
@@ -202,15 +202,15 @@ void calculerNiveauxTrophiques(int niveaux[]) {
 
         int maxNiveau = 0;
         for (int i = 0; i < nombreDeSommets; i++) {
-            if (graphe[i][sommet] > 0) { // Si i est un prédécesseur de sommet
-                dfs(i);                 // Calcul récursif pour i
+            if (graphe[sommet][i] > 0) { // Si i est un successeur du sommet
+                dfs(i);                  // Calcul récursif pour i
                 if (niveaux[i] > maxNiveau) {
                     maxNiveau = niveaux[i];
                 }
             }
         }
 
-        // Le niveau trophique est 1 + le max des niveaux de ses prédécesseurs
+        // Le niveau trophique est 1 + le max des niveaux de ses successeurs
         niveaux[sommet] = maxNiveau + 1;
     }
 
@@ -220,7 +220,20 @@ void calculerNiveauxTrophiques(int niveaux[]) {
             dfs(i);
         }
     }
+
+    // Normalisation pour fixer le maximum à un certain niveau (par ex. 3)
+    int maxTrophique = 0;
+    for (int i = 0; i < nombreDeSommets; i++) {
+        if (niveaux[i] > maxTrophique) {
+            maxTrophique = niveaux[i];
+        }
+    }
+
+    for (int i = 0; i < nombreDeSommets; i++) {
+        niveaux[i] = 4 - niveaux[i]; // Ajuste les niveaux pour que le maximum soit 3 et le minimum 1
+    }
 }
+
 
 int main() {
     FILE *fichier = fopen("graphe.txt", "r");
@@ -239,9 +252,10 @@ int main() {
     fclose(fichier);
 
     while (1) {
+        printf("\n\n ************************************\n\n");
         printf("\nMenu :\n");
         printf("1. Trouver le chemin le plus court\n");
-        printf("2. Afficher prédécesseurs et successeurs\n");
+        printf("2. Afficher predecesseurs et successeurs\n");
         printf("3. Afficher tout le graphe\n");
         printf("4. centralite d'intermediarite\n");
         printf("5. degre sommets\n");
@@ -256,9 +270,10 @@ int main() {
         if (choix == 7) break;
 
         if (choix == 1) {
-            printf("Entrez le sommet de départ : ");
+            printf("\n\n ************************************\n\n");
+            printf("Entrez le sommet de depart : ");
             scanf("%s", origine);
-            printf("Entrez le sommet d'arrivée : ");
+            printf("Entrez le sommet d'arrivee : ");
             scanf("%s", destination);
 
             int src = trouverIndexSommet(origine);
@@ -271,7 +286,8 @@ int main() {
 
             dijkstra(src, dest);
         } else if (choix == 2) {
-            printf("Entrez le sommet à explorer : ");
+            printf("\n\n ************************************\n\n");
+            printf("Entrez le sommet a explorer : ");
             scanf("%s", origine);
 
             int sommet = trouverIndexSommet(origine);
@@ -282,9 +298,11 @@ int main() {
 
             afficherPredSucc(sommet);
         } else if (choix == 3) {
+            printf("\n\n ************************************\n\n");
             afficherGraphe();
         }
         if (choix == 5) {
+            printf("\n\n ************************************\n\n");
             printf("Entrez le nom du sommet : ");
             scanf("%s", origine);
             int sommet = trouverIndexSommet(origine);
@@ -294,10 +312,12 @@ int main() {
             }
             calculerDegre(sommet);
         } else if (choix == 4) {
+            printf("\n\n ************************************\n\n");
             calculerCentraliteIntermediaire();
 
         }
         else if (choix == 6) {
+            printf("\n\n ************************************\n\n");
             // Calcul et affichage des niveaux trophiques
             calculerNiveauxTrophiques(niveaux);
             printf("\nNiveaux trophiques :\n");
@@ -306,7 +326,7 @@ int main() {
             }
         }
         else {
-            printf("Choix invalide.\n");
+           // printf("Choix invalide.\n");
         }
     }
 

@@ -1,0 +1,11 @@
+buffle 1000
+phacochère 667
+gazelle 237
+zèbre 804
+antilope 2000
+leopard 700
+lion 20
+gnou 1300
+guepard 10
+hyene 37
+impala 2000
