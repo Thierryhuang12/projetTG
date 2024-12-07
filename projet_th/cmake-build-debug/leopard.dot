@@ -1,8 +1,0 @@
-digraph mongraphe {
-antilope -> léopard [label="40"];
-gazelle -> léopard [label="25"];
-herbe -> antilope [label="70"];
-feuille -> antilope [label="20"];
-herbe -> gazelle [label="80"];
-feuille -> gazelle [label="15"];
-}
