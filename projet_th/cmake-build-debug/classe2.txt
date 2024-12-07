@@ -1,0 +1,20 @@
+fourmis 1
+cafard 1
+moucheron 1
+moustique 1
+mouche 1
+cloporte 1
+guepe 1
+poissonargent 1
+punaiseassassine 1
+araignee 1
+chat 1
+souris 1
+acarien 1
+homme 1
+matiereorganique 1
+restesalimentaire 1
+bois 1
+nectar
+poussiere 1
+graine 1

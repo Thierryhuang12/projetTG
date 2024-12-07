@@ -13,12 +13,15 @@
 #define INFINI INT_MAX
 typedef struct {
     char nom[20];
+    double population;
+    double classe;    // Classe d'animal (pour la quantité de nourriture consommée)
+    double coefficientCroissance;
 } Sommet;
 int graphe[MAX_SOMMETS][MAX_SOMMETS];
 Sommet sommets[MAX_SOMMETS];
 int nombreDeSommets = 0;
 int trouverIndexSommet(char *nom);
-void ajouterSommet(char *nom);
-void ajouterArc(char *origine, char *destination, int poids);
+
+
 void dijkstra(int source, int destination);
 #endif //PROJET_TH_BIB_H
