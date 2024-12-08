@@ -1,3 +1,26 @@
+# Sommets : nom, population, coefficient de croissance
+fourmis 600 0.5
+cafard 15 0.3
+moucheron 3 0.2
+moustique 3 0.4
+mouche 3 0.3
+cloporte 3 0.2
+guepe 6 0.4
+poissonargent 3 0.5
+punaiseassassine 12 0.3
+araignee 3 0.1
+chat 3 0.05
+souris 6 0.1
+acarien 6000000 0.1
+homme 3 0.01
+matiereorganique 810 0.3
+restesalimentaire 3000 0.4
+bois 90 0.5
+nectar 180 0.6
+poussiere 5760 0.05
+graine 390 0.2
+
+# Arcs : origine, destination, poids
 fourmis restesalimentaire 100
 cafard restesalimentaire 70
 cafard matiereorganique 30
@@ -27,5 +50,3 @@ souris restesalimentaire 70
 souris graine 20
 acarien poussiere 80
 acarien matiereorganique 20
-
-

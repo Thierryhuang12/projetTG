@@ -1,31 +1,31 @@
-digraph mongraphe {
-
-phacochere -> lion [label="10"];
-buffle -> lion [label="35"];
-zebre -> lion [label="25"];
-gnou -> lion [label="15"];
-gazelle -> lion [label="15"];
-antilope -> léopard [label="40"];
-gazelle -> léopard [label="25"];
-gazelle -> guepard [label="55"];
-impala -> guepard [label="25"];
-antilope -> guepard [label="15"];
-gnou -> hyene [label="35"];
-zebre -> hyene [label="20"];
-gazelle -> hyene [label="15"];
-antilope -> hyene [label="20"];
-feuille -> phacochere [label="90"];
-herbe -> gazelle [label="80"];
-feuille -> gazelle [label="15"];
-herbe -> zebre [label="80"];
-feuille -> zebre [label="15"];
-herbe -> gnou [label="80"];
-feuille -> gnou [label="10"];
-herbe -> antilope [label="70"];
-feuille -> antilope [label="20"];
-herbe -> impala [label="85"];
-feuille -> impala [label="10"];
-herbe -> buffle [label="70"];
-feuille -> buffle [label="20"];
+digraph graphe {
+    fourmis -> restesalimentaire [label="100"];
+    cafard -> matiereorganique [label="30"];
+    cafard -> restesalimentaire [label="70"];
+    moucheron -> restesalimentaire [label="100"];
+    moustique -> chat [label="50"];
+    moustique -> homme [label="50"];
+    mouche -> matiereorganique [label="50"];
+    mouche -> restesalimentaire [label="50"];
+    cloporte -> matiereorganique [label="30"];
+    cloporte -> bois [label="70"];
+    guepe -> moucheron [label="40"];
+    guepe -> nectar [label="60"];
+    poissonargent -> matiereorganique [label="100"];
+    punaiseassassine -> fourmis [label="20"];
+    punaiseassassine -> moucheron [label="20"];
+    punaiseassassine -> moustique [label="20"];
+    punaiseassassine -> poissonargent [label="20"];
+    punaiseassassine -> araignee [label="20"];
+    araignee -> moucheron [label="20"];
+    araignee -> moustique [label="30"];
+    araignee -> mouche [label="50"];
+    chat -> cafard [label="15"];
+    chat -> cloporte [label="15"];
+    chat -> souris [label="50"];
+    chat -> restesalimentaire [label="20"];
+    souris -> restesalimentaire [label="70"];
+    souris -> graine [label="20"];
+    acarien -> matiereorganique [label="20"];
+    acarien -> poussiere [label="80"];
 }
-
