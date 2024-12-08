@@ -50,3 +50,6 @@ souris restesalimentaire 70
 souris graine 20
 acarien poussiere 80
 acarien matiereorganique 20
+
+
+

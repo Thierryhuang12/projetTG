@@ -1,0 +1,31 @@
+digraph graphe {
+    buffle -> herbe [label="75"];
+    buffle -> feuille [label="25"];
+    phacochere -> feuille [label="100"];
+    gazelle -> herbe [label="85"];
+    gazelle -> feuille [label="15"];
+    zebre -> herbe [label="85"];
+    zebre -> feuille [label="15"];
+    antilope -> herbe [label="75"];
+    antilope -> feuille [label="25"];
+    leopard -> gazelle [label="25"];
+    leopard -> antilope [label="40"];
+    leopard -> gnou [label="20"];
+    leopard -> impala [label="20"];
+    lion -> buffle [label="35"];
+    lion -> phacochere [label="10"];
+    lion -> gazelle [label="15"];
+    lion -> zebre [label="25"];
+    lion -> gnou [label="15"];
+    gnou -> herbe [label="85"];
+    gnou -> feuille [label="15"];
+    guepard -> gazelle [label="60"];
+    guepard -> antilope [label="15"];
+    guepard -> impala [label="25"];
+    hyene -> gazelle [label="15"];
+    hyene -> zebre [label="25"];
+    hyene -> antilope [label="25"];
+    hyene -> gnou [label="35"];
+    impala -> herbe [label="90"];
+    impala -> feuille [label="10"];
+}

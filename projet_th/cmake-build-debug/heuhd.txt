@@ -1,0 +1,67 @@
+
+--- Rapport après l'itération 1 ---
+Sommet: buffle
+  Niveau trophique: 2
+  Population actuelle: 1043.00
+  Coefficient de croissance: 0.10
+----------------------
+Sommet: phacochere
+  Niveau trophique: 2
+  Population actuelle: 705.02
+  Coefficient de croissance: 0.12
+----------------------
+Sommet: gazelle
+  Niveau trophique: 2
+  Population actuelle: 65.22
+  Coefficient de croissance: 0.15
+----------------------
+Sommet: zebre
+  Niveau trophique: 2
+  Population actuelle: 842.01
+  Coefficient de croissance: 0.13
+----------------------
+Sommet: antilope
+  Niveau trophique: 2
+  Population actuelle: 1819.25
+  Coefficient de croissance: 0.11
+----------------------
+Sommet: leopard
+  Niveau trophique: 3
+  Population actuelle: 724.50
+  Coefficient de croissance: 0.07
+----------------------
+Sommet: lion
+  Niveau trophique: 3
+  Population actuelle: 20.50
+  Coefficient de croissance: 0.05
+----------------------
+Sommet: gnou
+  Niveau trophique: 2
+  Population actuelle: 1217.08
+  Coefficient de croissance: 0.12
+----------------------
+Sommet: guepard
+  Niveau trophique: 3
+  Population actuelle: 10.30
+  Coefficient de croissance: 0.06
+----------------------
+Sommet: hyene
+  Niveau trophique: 3
+  Population actuelle: 38.48
+  Coefficient de croissance: 0.08
+----------------------
+Sommet: impala
+  Niveau trophique: 2
+  Population actuelle: 1992.53
+  Coefficient de croissance: 0.14
+----------------------
+Sommet: herbe
+  Niveau trophique: 1
+  Population actuelle: 9254.38
+  Coefficient de croissance: 0.02
+----------------------
+Sommet: feuille
+  Niveau trophique: 1
+  Population actuelle: 5561.52
+  Coefficient de croissance: 0.03
+----------------------

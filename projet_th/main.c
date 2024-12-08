@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <windows.h>
 
 #define MAX_SOMMETS 50
 #define INFINI 999999
@@ -24,6 +25,10 @@ int trouverIndexSommet(char *nom) {
         }
     }
     return -1;
+}
+void color(int texte, int fond) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, (fond << 4) | texte);
 }
 
 // Charger les sommets et les arcs depuis un fichier texte
@@ -67,7 +72,7 @@ void chargerGrapheDepuisFichier(const char *nomFichier) {
     }
 
     fclose(file);
-    printf("Graphe chargé depuis le fichier %s avec succès.\n", nomFichier);
+    printf("Graphe charge depuis le fichier %s avec succes.\n", nomFichier);
 }
 void afficherSommets() {
     printf("\n--- Sommets ---\n");
@@ -77,7 +82,7 @@ void afficherSommets() {
     }
 }
 void afficherGraphe() {
-    printf("\n--- Graphe des relations de prédation ---\n");
+    printf("\n--- Graphe des relations de predation ---\n");
     for (int i = 0; i < nombreDeSommets; i++) {
         printf("%s : ", sommets[i].nom);
         int hasRelations = 0;
@@ -91,23 +96,52 @@ void afficherGraphe() {
         printf("\n");
     }
 }
-void reglerPopulation() {
+void reglerPopulationAvecNiveaux(int niveaux[], double tauxCroissanceNiveau1) {
     for (int i = 0; i < nombreDeSommets; i++) {
-        double K = sommets[i].population * 10; // Capacité de portage
-        double r = sommets[i].coefficientCroissance;
+        double K = 0;
+        double croissance = 0;
         double populationActuelle = sommets[i].population;
-        double croissance = r * populationActuelle * (1 - populationActuelle / K); // Croissance logistique
+
+        // Gestion des niveaux trophiques 1
+        if (niveaux[i] == 1) {
+            double r = tauxCroissanceNiveau1;
+            croissance = r * populationActuelle; // Croissance linéaire
+        } else {
+            // Calcul de K pour les autres niveaux
+            for (int j = 0; j < nombreDeSommets; j++) {
+                if (graphe[j][i] > 0) {
+                    K += graphe[j][i] * sommets[j].population / 100.0;
+                }
+            }
+
+            // Appliquer un seuil minimum pour K
+            if (K < populationActuelle) {
+                K = populationActuelle * 2;
+            }
+
+            double r = sommets[i].coefficientCroissance;
+            croissance = r * populationActuelle * (1 - populationActuelle / K);
+        }
 
         // Calcul de la réduction par prédation
         double reductionParPredateurs = 0;
         for (int j = 0; j < nombreDeSommets; j++) {
-            if (graphe[j][i] > 0) { // Si j est un prédateur de i
+            if (graphe[j][i] > 0) {
                 reductionParPredateurs += graphe[j][i] * sommets[j].population / 100.0;
             }
         }
 
+        // Limiter la réduction par prédation
+        if (reductionParPredateurs > populationActuelle * 0.9) {
+            reductionParPredateurs = populationActuelle * 0.9;
+        }
+
+        // Affichage des informations pour chaque sommet
         printf("\n--- Sommet: %s ---\n", sommets[i].nom);
         printf("Population actuelle: %.2f\n", populationActuelle);
+        if (niveaux[i] != 1) {
+            printf("Capacité (K): %.2f\n", K);
+        }
         printf("Croissance: %.2f\n", croissance);
         printf("Réduction par prédation: %.2f\n", reductionParPredateurs);
 
@@ -123,6 +157,7 @@ void reglerPopulation() {
     }
 }
 
+
 void afficherPredateursProies(char *sommet) {
     int index = trouverIndexSommet(sommet);
     if (index == -1) {
@@ -132,7 +167,7 @@ void afficherPredateursProies(char *sommet) {
 
     printf("\n--- Relations pour %s ---\n", sommet);
 
-    printf("Prédécesseurs (prédateurs) : ");
+    printf("Predecesseurs (predateurs) : ");
     int hasPredecesseurs = 0;
     for (int i = 0; i < nombreDeSommets; i++) {
         if (graphe[i][index] > 0) {
@@ -190,12 +225,12 @@ void dijkstra(int source, int destination) {
     }
 
     if (distance[destination] == INFINI) {
-        printf("Aucun chemin trouvé de %s à %s.\n", sommets[source].nom, sommets[destination].nom);
+        printf("Aucun chemin trouve de %s a %s.\n", sommets[source].nom, sommets[destination].nom);
         return;
     }
 
-    printf("Chemin le plus court de %s à %s avec une distance de %d :\n",
-           sommets[source].nom, sommets[destination].nom, distance[destination]);
+    printf("Chemin le plus court de %s a %s :\n",
+           sommets[source].nom, sommets[destination].nom);
 
     int chemin[MAX_SOMMETS], compte = 0;
     for (int v = destination; v != -1; v = precedent[v]) {
@@ -209,9 +244,9 @@ void dijkstra(int source, int destination) {
     printf("\n");
 }
 
+
 // Calcul des niveaux trophiques
-void calculerNiveauxTrophiques() {
-    int niveaux[MAX_SOMMETS] = {0};
+void calculerNiveauxTrophiques(int niveaux[]) {
     int visite[MAX_SOMMETS] = {0};
 
     void dfs(int sommet) {
@@ -220,7 +255,7 @@ void calculerNiveauxTrophiques() {
 
         int maxNiveau = 0;
         for (int i = 0; i < nombreDeSommets; i++) {
-            if (graphe[sommet][i] > 0) {
+            if (graphe[sommet][i] > 0) { // Si sommet a une relation avec i
                 dfs(i);
                 if (niveaux[i] > maxNiveau) {
                     maxNiveau = niveaux[i];
@@ -230,11 +265,18 @@ void calculerNiveauxTrophiques() {
         niveaux[sommet] = maxNiveau + 1;
     }
 
+    // Réinitialiser les niveaux avant recalcul
+    for (int i = 0; i < nombreDeSommets; i++) {
+        niveaux[i] = 0;
+    }
+
+    // Calculer les niveaux trophiques pour chaque sommet
     for (int i = 0; i < nombreDeSommets; i++) {
         if (!visite[i]) {
             dfs(i);
         }
     }
+
 
     printf("\n--- Niveaux trophiques ---\n");
     for (int i = 0; i < nombreDeSommets; i++) {
@@ -285,9 +327,9 @@ void calculerCentraliteIntermediaire() {
         }
     }
 
-    printf("\n--- Centralité d'intermédiarité ---\n");
+    printf("\n--- Centralite d'intermédiarite---\n");
     for (int i = 0; i < nombreDeSommets; i++) {
-        printf("Sommet %s : Centralité %d\n", sommets[i].nom, centralite[i]);
+        printf("Sommet %s : Centralite %d\n", sommets[i].nom, centralite[i]);
     }
 }
 void calculerDegre(char *sommet) {
@@ -303,13 +345,22 @@ void calculerDegre(char *sommet) {
         if (graphe[index][i] > 0) degreSortant++;
     }
 
-    printf("\n--- Degré du sommet %s ---\n", sommet);
-    printf("Degré entrant : %d\n", degreEntrant);
-    printf("Degré sortant : %d\n", degreSortant);
+    printf("\n--- Degre du sommet %s ---\n", sommet);
+    printf("Degre entrant : %d\n", degreEntrant);
+    printf("Degre sortant : %d\n", degreSortant);
 }
 
 // Générer un fichier DOT pour visualisation
-void genererDotFile(const char *nomFichier) {
+void genererDotFile() {
+    char nomFichier[50];
+    printf("Entrez le nom du fichier DOT e generer (par ex. graphe.dot) : ");
+    scanf("%s", nomFichier);
+
+    // Vérifie si l'extension .dot est présente
+    if (strstr(nomFichier, ".dot") == NULL) {
+        strcat(nomFichier, ".dot"); // Ajoute .dot si absent
+    }
+
     FILE *file = fopen(nomFichier, "w");
     if (!file) {
         printf("Erreur d'ouverture du fichier DOT.\n");
@@ -327,88 +378,185 @@ void genererDotFile(const char *nomFichier) {
     }
     fprintf(file, "}\n");
     fclose(file);
-    printf("Fichier DOT généré : %s\n", nomFichier);
+    printf("Fichier DOT genere : %s\n", nomFichier);
 }
 
-// Main
+
+// Fonction pour vider le tampon
+void viderTampon() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+
+
+void genererRapport(int iteration, int niveaux[], const char *nomFichierRapport) {
+    FILE *file = fopen(nomFichierRapport, "a"); // Ouvrir en mode ajout
+    if (!file) {
+        printf("Erreur: impossible de créer le fichier %s.\n", nomFichierRapport);
+        return;
+    }
+
+    fprintf(file, "\n--- Rapport après l'itération %d ---\n", iteration);
+    for (int i = 0; i < nombreDeSommets; i++) {
+        fprintf(file, "Sommet: %s\n", sommets[i].nom);
+        fprintf(file, "  Niveau trophique: %d\n", niveaux[i]);
+        fprintf(file, "  Population actuelle: %.2f\n", sommets[i].population);
+        fprintf(file, "  Coefficient de croissance: %.2f\n", sommets[i].coefficientCroissance);
+        fprintf(file, "----------------------\n");
+    }
+
+    fclose(file);
+    printf("Rapport généré : %s\n", nomFichierRapport);
+}
+
 int main() {
     char nomFichier[50];
-    printf("Entrez le nom du fichier contenant le graphe (par ex. graphe.txt) : ");
-    scanf("%s", nomFichier);
+    int iteration = 1;
+    char buffer[10];
+    FILE *testFile;
 
+    // Instructions pour l'utilisateur
+    color(7, 0);
+    printf("Entrez le nom du fichier contenant le reseau trophique :\n");
+    color(4, 0);
+    printf("\nTapez graphe.txt Pour la Savane\n");
+    color(2, 0);
+    printf("\nTapez graphe2.txt Pour la Maison\n");
+    color(6, 0);
+    printf("\nTapez graphe3.txt Pour la Foret\n");
+    color(7, 0);
+
+    // Saisie sécurisée pour le choix de fichier
+    do {
+        color(3,0);
+        printf("\n\nVotre choix : ");
+        color(7, 0);
+        if (fgets(nomFichier, sizeof(nomFichier), stdin) != NULL) {
+            nomFichier[strcspn(nomFichier, "\n")] = '\0'; // Supprimer le retour à la ligne
+        }
+
+        testFile = fopen(nomFichier, "r");
+        if (!testFile) {
+            printf("Erreur : graphe non existant. Veuillez réessayer.\n");
+        }
+    } while (!testFile);
+    fclose(testFile);
+
+    // Charger le fichier sélectionné
     chargerGrapheDepuisFichier(nomFichier);
+
+    // Saisie du coefficient de croissance
+    double tauxCroissanceNiveau1;
+    int saisieValide = 0;
+    do {
+        printf("Entrez le taux de croissance constant pour les niveaux trophiques 1 : ");
+        if (fgets(buffer, sizeof(buffer), stdin) != NULL && sscanf(buffer, "%lf", &tauxCroissanceNiveau1) == 1 && tauxCroissanceNiveau1 > 0) {
+            saisieValide = 1;
+        } else {
+            printf("Erreur : coefficient impossible. Veuillez entrer un nombre valide.\n");
+        }
+    } while (!saisieValide);
+
+    // Calculer les niveaux trophiques
+    int niveaux[MAX_SOMMETS] = {0};
+    calculerNiveauxTrophiques(niveaux);
 
     int choix;
     do {
+        color(3,0);
+        printf("\n\n************************************************************");
         printf("\n--- Menu ---\n");
-        printf("1. Afficher les sommets\n");
-        printf("2. Afficher le graphe\n");
-        printf("3. Calculer une itération de population\n");
-        printf("4. Trouver le chemin le plus court\n");
-        printf("5. Générer un fichier DOT\n");
-        printf("6. Afficher les prédateurs et proies d'un sommet\n");
-        printf("7. Calculer le degré d'un sommet\n");
-        printf("8. Calculer les niveaux trophiques\n");
-        printf("9. Calculer la centralité d'intermédiarité\n");
-        printf("10. Quitter\n");
-        printf("Votre choix: ");
-        scanf("%d", &choix);
+        color(6, 0);
+        printf("\n1. Afficher les sommets\n");
+        printf("\n2. Afficher le graphe\n");
+        printf("\n3. Calculer une iteration de population\n");
+        printf("\n4. Trouver le chemin le plus court\n");
+        printf("\n5. Generer un fichier DOT\n");
+        printf("\n6. Afficher les predateurs et proies d'un sommet\n");
+        printf("\n7. Calculer le degre d'un sommet\n");
+        printf("\n8. Calculer les niveaux trophiques\n");
+        printf("\n9. Calculer la centralite d'intermediarite\n");
+        printf("\n10. Quitter\n");
+        color(2, 0);
+        printf("\n\nVotre choix: ");
+        color(7,0);
 
-        switch (choix) {
-            case 1:
-                afficherSommets();
-                break;
-            case 2:
-                afficherGraphe();
-                break;
-            case 3:
-                reglerPopulation();
-                break;
-            case 4: {
-                char sommet1[20], sommet2[20];
-                printf("Entrez le sommet de départ : ");
-                scanf("%s", sommet1);
-                printf("Entrez le sommet d'arrivée : ");
-                scanf("%s", sommet2);
-
-                int src = trouverIndexSommet(sommet1);
-                int dest = trouverIndexSommet(sommet2);
-
-                if (src == -1 || dest == -1) {
-                    printf("Sommets invalides.\n");
-                } else {
-                    dijkstra(src, dest);
+        // Lecture sécurisée du choix
+        if (fgets(buffer, sizeof(buffer), stdin) != NULL && sscanf(buffer, "%d", &choix) == 1) {
+            switch (choix) {
+                case 1:
+                    afficherSommets();
+                    break;
+                case 2:
+                    afficherGraphe();
+                    break;
+                case 3: {
+                    char nomFichierRapport[50];
+                    printf("Entrez le nom du fichier de rapport (ex. rapport_population.txt) : ");
+                    if (fgets(nomFichierRapport, sizeof(nomFichierRapport), stdin) != NULL) {
+                        nomFichierRapport[strcspn(nomFichierRapport, "\n")] = '\0'; // Supprimer le retour à la ligne
+                    }
+                    reglerPopulationAvecNiveaux(niveaux, tauxCroissanceNiveau1);
+                    genererRapport(iteration++, niveaux, nomFichierRapport);
+                    break;
                 }
-                break;
+                case 4: {
+                    char sommet1[20], sommet2[20];
+                    printf("Entrez le sommet de depart : ");
+                    if (fgets(sommet1, sizeof(sommet1), stdin) != NULL) {
+                        sommet1[strcspn(sommet1, "\n")] = '\0';
+                    }
+                    printf("Entrez le sommet d'arrivee : ");
+                    if (fgets(sommet2, sizeof(sommet2), stdin) != NULL) {
+                        sommet2[strcspn(sommet2, "\n")] = '\0';
+                    }
+
+                    int src = trouverIndexSommet(sommet1);
+                    int dest = trouverIndexSommet(sommet2);
+
+                    if (src == -1 || dest == -1) {
+                        printf("Sommets invalides.\n");
+                    } else {
+                        dijkstra(src, dest);
+                    }
+                    break;
+                }
+                case 5:
+                    genererDotFile();
+                    break;
+                case 6: {
+                    char sommet[20];
+                    printf("Entrez le sommet : ");
+                    if (fgets(sommet, sizeof(sommet), stdin) != NULL) {
+                        sommet[strcspn(sommet, "\n")] = '\0';
+                    }
+                    afficherPredateursProies(sommet);
+                    break;
+                }
+                case 7: {
+                    char sommet[20];
+                    printf("Entrez le sommet : ");
+                    if (fgets(sommet, sizeof(sommet), stdin) != NULL) {
+                        sommet[strcspn(sommet, "\n")] = '\0';
+                    }
+                    calculerDegre(sommet);
+                    break;
+                }
+                case 8:
+                    calculerNiveauxTrophiques(niveaux);
+                    break;
+                case 9:
+                    calculerCentraliteIntermediaire();
+                    break;
+                case 10:
+                    printf("Au revoir!\n");
+                    break;
+                default:
+                    printf("Choix invalide.\n");
             }
-            case 5:
-                genererDotFile("graphe.dot");
-                break;
-            case 6: {
-                char sommet[20];
-                printf("Entrez le sommet : ");
-                scanf("%s", sommet);
-                afficherPredateursProies(sommet);
-                break;
-            }
-            case 7: {
-                char sommet[20];
-                printf("Entrez le sommet : ");
-                scanf("%s", sommet);
-                calculerDegre(sommet);
-                break;
-            }
-            case 8:
-                calculerNiveauxTrophiques();
-                break;
-            case 9:
-                calculerCentraliteIntermediaire();
-                break;
-            case 10:
-                printf("Au revoir!\n");
-                break;
-            default:
-                printf("Choix invalide.\n");
+        } else {
+            printf("Choix invalide.\n");
         }
     } while (choix != 10);
 

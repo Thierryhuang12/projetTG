@@ -1,0 +1,23 @@
+digraph graphe {
+    Jaguar -> Anaconda [label="15"];
+    Jaguar -> Ocelot [label="10"];
+    Jaguar -> Caiman [label="20"];
+    Jaguar -> Capybara [label="30"];
+    Jaguar -> Tapir [label="25"];
+    Anaconda -> Caiman [label="40"];
+    Anaconda -> Capybara [label="60"];
+    Ocelot -> Toucan [label="10"];
+    Ocelot -> Paresseux [label="10"];
+    Ocelot -> Singe [label="50"];
+    Aigle -> Ocelot [label="20"];
+    Aigle -> Capybara [label="30"];
+    Aigle -> Toucan [label="20"];
+    Aigle -> Paresseux [label="30"];
+    Caiman -> Anaconda [label="20"];
+    Caiman -> Capybara [label="30"];
+    Caiman -> Tapir [label="30"];
+    Capybara -> Fruits [label="50"];
+    Tapir -> Fruits [label="40"];
+    Toucan -> Fruits [label="10"];
+    Singe -> Fruits [label="60"];
+}

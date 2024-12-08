@@ -1,0 +1,31 @@
+digraph graphe {
+    fourmis -> restesalimentaire [label="100"];
+    cafard -> matiereorganique [label="30"];
+    cafard -> restesalimentaire [label="70"];
+    moucheron -> restesalimentaire [label="100"];
+    moustique -> chat [label="50"];
+    moustique -> homme [label="50"];
+    mouche -> matiereorganique [label="50"];
+    mouche -> restesalimentaire [label="50"];
+    cloporte -> matiereorganique [label="30"];
+    cloporte -> bois [label="70"];
+    guepe -> moucheron [label="40"];
+    guepe -> nectar [label="60"];
+    poissonargent -> matiereorganique [label="100"];
+    punaiseassassine -> fourmis [label="20"];
+    punaiseassassine -> moucheron [label="20"];
+    punaiseassassine -> moustique [label="20"];
+    punaiseassassine -> poissonargent [label="20"];
+    punaiseassassine -> araignee [label="20"];
+    araignee -> moucheron [label="20"];
+    araignee -> moustique [label="30"];
+    araignee -> mouche [label="50"];
+    chat -> cafard [label="15"];
+    chat -> cloporte [label="15"];
+    chat -> souris [label="50"];
+    chat -> restesalimentaire [label="20"];
+    souris -> restesalimentaire [label="70"];
+    souris -> graine [label="20"];
+    acarien -> matiereorganique [label="20"];
+    acarien -> poussiere [label="80"];
+}

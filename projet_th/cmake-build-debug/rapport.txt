@@ -1,0 +1,102 @@
+
+--- Rapport après l'itération 1 ---
+Sommet: fourmis
+  Niveau trophique: 0
+  Population actuelle: 747.60
+  Coefficient de croissance: 0.50
+----------------------
+Sommet: cafard
+  Niveau trophique: 0
+  Population actuelle: 16.80
+  Coefficient de croissance: 0.30
+----------------------
+Sommet: moucheron
+  Niveau trophique: 0
+  Population actuelle: 0.57
+  Coefficient de croissance: 0.20
+----------------------
+Sommet: moustique
+  Niveau trophique: 0
+  Population actuelle: 0.41
+  Coefficient de croissance: 0.40
+----------------------
+Sommet: mouche
+  Niveau trophique: 0
+  Population actuelle: 1.95
+  Coefficient de croissance: 0.30
+----------------------
+Sommet: cloporte
+  Niveau trophique: 0
+  Population actuelle: 2.85
+  Coefficient de croissance: 0.20
+----------------------
+Sommet: guepe
+  Niveau trophique: 0
+  Population actuelle: 7.20
+  Coefficient de croissance: 0.40
+----------------------
+Sommet: poissonargent
+  Niveau trophique: 0
+  Population actuelle: 1.35
+  Coefficient de croissance: 0.50
+----------------------
+Sommet: punaiseassassine
+  Niveau trophique: 0
+  Population actuelle: 13.80
+  Coefficient de croissance: 0.30
+----------------------
+Sommet: araignee
+  Niveau trophique: 0
+  Population actuelle: 0.45
+  Coefficient de croissance: 0.10
+----------------------
+Sommet: chat
+  Niveau trophique: 0
+  Population actuelle: 2.87
+  Coefficient de croissance: 0.05
+----------------------
+Sommet: souris
+  Niveau trophique: 0
+  Population actuelle: 4.86
+  Coefficient de croissance: 0.10
+----------------------
+Sommet: acarien
+  Niveau trophique: 0
+  Population actuelle: 6300000.00
+  Coefficient de croissance: 0.10
+----------------------
+Sommet: homme
+  Niveau trophique: 0
+  Population actuelle: 2.81
+  Coefficient de croissance: 0.01
+----------------------
+Sommet: matiereorganique
+  Niveau trophique: 0
+  Population actuelle: 323.84
+  Coefficient de croissance: 0.30
+----------------------
+Sommet: restesalimentaire
+  Niveau trophique: 0
+  Population actuelle: 2835.12
+  Coefficient de croissance: 0.40
+----------------------
+Sommet: bois
+  Niveau trophique: 0
+  Population actuelle: 110.51
+  Coefficient de croissance: 0.50
+----------------------
+Sommet: nectar
+  Niveau trophique: 0
+  Population actuelle: 229.68
+  Coefficient de croissance: 0.60
+----------------------
+Sommet: poussiere
+  Niveau trophique: 0
+  Population actuelle: 863.67
+  Coefficient de croissance: 0.05
+----------------------
+Sommet: graine
+  Niveau trophique: 0
+  Population actuelle: 428.03
+  Coefficient de croissance: 0.20
+----------------------

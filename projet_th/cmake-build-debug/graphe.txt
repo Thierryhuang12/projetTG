@@ -1,3 +1,19 @@
+# Sommets avec population et coefficient de croissance
+buffle 1000 0.1
+phacochere 667 0.12
+gazelle 237 0.15
+zebre 804 0.13
+antilope 2000 0.11
+leopard 700 0.07
+lion 20 0.05
+gnou 1300 0.12
+guepard 10 0.06
+hyene 37 0.08
+impala 2000 0.14
+herbe 10000 0.02
+feuille 5000 0.03
+
+# Relations de predation (origine destination poids)
 lion phacochere 10
 lion buffle 35
 lion zebre 25
@@ -27,3 +43,4 @@ impala herbe 90
 impala feuille 10
 buffle herbe 75
 buffle feuille 25
+
